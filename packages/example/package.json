@@ -1,0 +1,28 @@
+{
+  "name": "@mtranter/serverless-ts-core-example",
+  "version": "0.1.0",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/",
+    "access": "restricted"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.70"
+  },
+  "dependencies": {
+    "@mtranter/serverless-ts-core": "0.1.0",
+    "@sinclair/typebox": "^0.12.8",
+    "@types/string.prototype.matchall": "^4.0.0",
+    "ajv": "^7.1.1",
+    "fp-ts": "^2.9.5",
+    "string.prototype.matchall": "^4.0.4"
+  }
+}
