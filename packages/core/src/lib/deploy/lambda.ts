@@ -1,38 +1,45 @@
 import { Context } from 'aws-lambda';
-import { callerCallsite } from 'caller-callsite';
 import { EventHandler } from './../common/events';
 
 export const LambdaSymbol = Symbol('LambdaFunction');
-type FunctionDefinitionRequest = {
+type LambdaDefinitionRequest = {
   __Symbol__: typeof LambdaSymbol;
 };
-type FunctionDefinition = {
-  name: string;
-  description?: string;
-  handler: string;
-  envVars?: Record<string, string>;
-  memory?: number;
-};
 
-export type LambdaConfiguration = {
+export type LambdaConfig = {
   name?: string;
   description?: string;
-  memory?: number;
   envVars?: Record<string, string>;
+  memory?: number;
 };
 
-type DependentEventHandler<I1, I2, O1, O2> = <I extends I1 | I2>(
-  i: I,
-  c: Context
-) => I extends I1 ? Promise<O1> : Promise<O2>;
+type LambdaDefinition = {
+  name: string;
+  handler: string;
+} & LambdaConfig;
 
-const isFunctionDefinitionRequest = <I>(i: I | FunctionDefinitionRequest): i is FunctionDefinitionRequest =>
-  (i as FunctionDefinitionRequest).__Symbol__ === LambdaSymbol;
 
-export type LambdaDefinitionFunction = (i: FunctionDefinitionRequest, c: any) => Promise<FunctionDefinition>;
-export const lambdaDefinition = <I, O>(
-  handler: EventHandler<I, O>
-): DependentEventHandler<I, FunctionDefinitionRequest, O, FunctionDefinition> => (
-  a: I | FunctionDefinitionRequest,
+
+type DependentEventHandler<I1, I2, O1, O2> = <I extends I1 | I2>(i: I, c: Context) => I extends I1 ? O1 : O2;
+
+const isFunctionDefinitionRequest = <I>(i: I | LambdaDefinitionRequest): i is LambdaDefinitionRequest =>
+  (i as LambdaDefinitionRequest).__Symbol__ === LambdaSymbol;
+
+// export type LambdaDefinitionFunction = (i: LambdaDefinitionRequest, c: any) => Promise<LambdaDefinition>;
+
+export const buildFunctionDefinition = (fdr: LambdaDefinitionRequest, cfg: LambdaConfig): LambdaDefinition => {
+  throw new Error('fds');
+};
+
+export const lambdaDefinition = <In, Out>(
+  handler: EventHandler<In, Out>,
+  config?: LambdaConfig
+): DependentEventHandler<In, LambdaDefinitionRequest, Promise<Out>, LambdaDefinition> => <
+  I2 extends In | LambdaDefinitionRequest
+>(
+  a: I2,
   c: Context
-) => (isFunctionDefinitionRequest(a) ? ({} as any) : handler(a, c));
+) =>
+  (isFunctionDefinitionRequest(a) ? buildFunctionDefinition(a, config || {}) : handler(a as In, c)) as I2 extends In
+    ? Promise<Out>
+    : LambdaDefinition;
