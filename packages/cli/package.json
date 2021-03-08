@@ -1,0 +1,24 @@
+{
+  "name": "@drysl/cli",
+  "version": "0.1.0",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/",
+    "access": "restricted"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.70"
+  },
+  "dependencies": {
+    "@drysl/core": "^0.1.0"
+  }
+}
