@@ -40,11 +40,6 @@ type QueryParams<A extends string, Seed = {}> = A extends `{${infer AA}}${infer 
   ? Merge<Seed & UrlParam<AA> & QueryParams<Tail>>
   : Seed;
 
-type UrlParams<A extends string> = {
-  pathParams: A extends `${infer P}?${infer _}` ? PathParams<P> : PathParams<A>;
-  queryParams: A extends `${infer _}?${infer Q}` ? PathParams<Q> : never;
-};
-
 export type Request<Url extends string, Body = unknown> = {
   pathParams: Url extends `${infer P}?${infer _}` ? PathParams<P> : PathParams<Url>;
   queryParams: Url extends `${infer _}?${infer Q}` ? QueryParams<Q> : never;
