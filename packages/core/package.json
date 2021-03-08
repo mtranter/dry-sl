@@ -1,5 +1,5 @@
 {
-  "name": "@mtranter/serverless-ts-core",
+  "name": "@drysl/core",
   "version": "0.1.0",
   "license": "MIT",
   "publishConfig": {
@@ -20,9 +20,12 @@
   },
   "dependencies": {
     "@sinclair/typebox": "^0.12.8",
+    "@types/app-root-path": "^1.2.4",
     "@types/string.prototype.matchall": "^4.0.0",
     "ajv": "^7.1.1",
+    "app-root-path": "^3.0.0",
     "caller-callsite": "^4.1.0",
+    "callsites": "^3.1.0",
     "fp-ts": "^2.9.5",
     "string.prototype.matchall": "^4.0.4"
   }

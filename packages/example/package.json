@@ -1,5 +1,5 @@
 {
-  "name": "@mtranter/serverless-ts-core-example",
+  "name": "@drysl/example",
   "version": "0.1.0",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/",
@@ -18,7 +18,7 @@
     "@types/aws-lambda": "^8.10.70"
   },
   "dependencies": {
-    "@mtranter/serverless-ts-core": "0.1.0",
+    "@drysl/core": "0.1.0",
     "@sinclair/typebox": "^0.12.8",
     "@types/string.prototype.matchall": "^4.0.0",
     "ajv": "^7.1.1",

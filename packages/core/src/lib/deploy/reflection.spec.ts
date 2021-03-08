@@ -1,35 +1,22 @@
-import callerCallsite, { CallSite } from 'caller-callsite';
+import { Reflection } from './reflection';
 
-const CallStackMarker = Symbol('CallStackMarker');
-
-const mapStack = (cs: CallSite) => ({
-  functionName: cs.getFunctionName(),
-  fileName: cs.getFileName(),
-  methodName: cs.getMethodName(),
-  lineNo: cs.getLineNumber(),
-})
-
-const getCallstack = () => {
-  const _prepareStackTrace = Error.prepareStackTrace;
-  Error.prepareStackTrace = (_, stack) => stack;
-  const stack: CallSite[] = (new Error().stack!.slice(1) as unknown) as CallSite[];
-  Error.prepareStackTrace = _prepareStackTrace;
-  console.dir(stack.map(mapStack));
-  return stack;
-};
-
-const CallbackCallstack = {
-  [CallStackMarker]: <T>(cb: () => T): T => cb(),
-  getMyCaller: (): CallSite | null => {
-    const callsite = getCallstack()
-    return callsite[2]
-  },
-};
-
-describe('CallbackCallstack', () => {
-  it('Should return its depth in the stack', () => {
-    const framework = () => CallbackCallstack.getMyCaller();
+describe('Reflection', () => {
+  it('Should return parent caller', () => {
+    const framework = () => Reflection.getMyCaller();
     const handler = () => framework();
+    const callerFn = handler();
+    expect(callerFn?.getFunctionName()).toEqual('handler');
+  });
+  it('Should return parent caller with depth 1', () => {
+    const framework = () => Reflection.getMyCaller(1);
+    const handler = () => framework();
+    const callerFn = handler();
+    expect(callerFn?.getFunctionName()).toEqual('handler');
+  });
+  it('Should return parent caller at depth 2', () => {
+    const framework = () => Reflection.getMyCaller(2);
+    const builder = () => framework();
+    const handler = () => builder();
     const callerFn = handler();
     expect(callerFn?.getFunctionName()).toEqual('handler');
   });

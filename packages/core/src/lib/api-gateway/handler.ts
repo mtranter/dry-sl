@@ -1,13 +1,11 @@
 import Ajv from 'ajv';
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+import { APIGatewayProxyHandler } from 'aws-lambda';
 import { parsePathParams, parseQueryParams } from './path-param-parser';
 import { RouteHandlers } from './router';
-import { EventHandler } from '../common/events';
 import FP from 'fp-ts';
 
 const ajv = new Ajv({});
-export type APIEventHander = EventHandler<APIGatewayProxyEvent, APIGatewayProxyResult>;
-export const APIEventHandler: (routes: RouteHandlers) => APIEventHander = ({ handlers }) => (event, ctx) => {
+export const APIEventHandler: (routes: RouteHandlers) => APIGatewayProxyHandler = ({ handlers }) => (event, ctx) => {
   const possibleRoutes = handlers.filter(
     h =>
       h.url.split('?')[0].toLowerCase() === event.resource.toLowerCase() &&
