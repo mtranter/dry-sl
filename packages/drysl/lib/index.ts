@@ -1,1 +1,1 @@
-export { DrySl } from '@drysl/core';
+export * from '@drysl/core';

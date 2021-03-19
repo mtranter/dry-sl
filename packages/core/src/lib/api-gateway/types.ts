@@ -72,3 +72,9 @@ const response3 = get('/people');
 const response4 = get('/people/a');
 
 const response5 = get('/people/yo/dfds/fds');
+
+type Head<S extends string> = S extends `${infer Head}${infer Tail}` ? Head : never;
+type Tail<S extends string> = S extends `${infer Head}${infer Tail}` ? Tail : never;
+
+const head: Head<'Alex'> = 'A';
+const tail: Tail<'Alex'> = 'lex';

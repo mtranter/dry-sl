@@ -14,7 +14,6 @@ export type LambdaConfig = {
 };
 
 export type LambdaDefinition = {
-  name: string;
   handler: string;
 } & LambdaConfig;
 

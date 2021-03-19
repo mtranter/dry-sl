@@ -11,14 +11,14 @@
     "dist/**"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf ./dist && tsc",
     "test": "jest"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.70"
   },
   "dependencies": {
-    "@drysl/core": "0.1.0",
+    "drysl": "0.1.0",
     "@sinclair/typebox": "^0.12.8",
     "@types/string.prototype.matchall": "^4.0.0",
     "ajv": "^7.1.1",
